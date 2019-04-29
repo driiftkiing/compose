@@ -3,11 +3,12 @@
 set -ex
 
 TARGET=dist/docker-compose-$(uname -s)-$(uname -m)
-VENV=/code/.tox/py36
+VENV=/code/.venv; python3 -m venv $VENV
 
 mkdir -p `pwd`/dist
 chmod 777 `pwd`/dist
 
+$VENV/bin/pip install -q -r requirements.txt
 $VENV/bin/pip install -q -r requirements-build.txt
 ./script/build/write-git-sha
 su -c "$VENV/bin/pyinstaller docker-compose.spec" user
